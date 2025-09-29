@@ -1,7 +1,8 @@
 import argparse
 from download_manager.downloader import *
-from download_manager.pdfconvert import images_to_pdf, open_pdf
+from download_manager.pdfconvert import  open_pdf
 from download_manager.nHentaiScraper import get_name, get_code
+from download_manager.download_path import sanitize_filename
 
 def main():
     parser = argparse.ArgumentParser(prog="nhentai", description="Doujin download tool")
@@ -24,18 +25,18 @@ def main():
     lookup_parser = subparsers.add_parser("lookup", help="return sauce code based on title")
     lookup_parser.add_argument("title", help="Title of the doujin")
 
+    downloaded_parser = subparsers.add_parser("doujins", help = "List of downloaded doujins")
+  
+
 
     args = parser.parse_args()
     if args.command == "download":
         print(f"Downloading doujin {args.sauce}...")
         download = downloadManager()
-        if download.download_doujin(args.sauce) == 1:
+        print("Probing for valid img links (This will take longer if number of pages are large)")
+        downloaded = download.download_doujin(args.sauce, pdf=args.pdf)
+        if downloaded == 1:
             return
-        if args.pdf:
-            script_dir = os.path.dirname(os.path.abspath(__file__))
-            doujin_name = get_name(args.sauce)
-            target_folder = os.path.join(script_dir, "Downloads", "Saved_Doujins", doujin_name)
-            images_to_pdf(target_folder)
     
     if args.command == "delete":
         print(f"Deleting Doujin: {args.sauce}")
@@ -47,13 +48,32 @@ def main():
         print(f"Opening Doujin: {args.sauce}")
         script_dir = os.path.dirname(os.path.abspath(__file__))
         doujin_name = get_name(args.sauce)
+        doujin_name = sanitize_filename(doujin_name)[:75]
         target_folder = os.path.join(script_dir, "Downloads", "Saved_Doujins", doujin_name)
         if not os.path.exists(target_folder):
             print("You don't have that doujin downloaded!")
         else:
             open_pdf(target_folder)
+    
     if args.command == "lookup":
         get_code(args.title)
+    
+    if args.command  == "doujins":
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        target_folder = os.path.join(script_dir, "Downloads", "Saved_Doujins")
+        if os.path.exists(target_folder):
+            saved_doujins = [
+                name for name in os.listdir(target_folder)
+                if os.path.isdir(os.path.join(target_folder, name))
+            ]
+            if saved_doujins:
+                print("Saved Doujins:")
+                for doujin in saved_doujins:
+                    print(f"- {doujin}")
+            else:
+                print("No doujins saved yet.")
+        else:
+            print("No Saved_Doujins folder found.")
 
 
 
