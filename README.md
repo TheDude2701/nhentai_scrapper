@@ -41,6 +41,9 @@ nhentai download 123123 --pdf
 ```
 ![Download](Images/download.png)
 
+Note: It will take longer for larger doujins with more pages, for 200 pages it'll take ~ 1.5min
+Sorry, I know it's kinda slow...
+
 ![Repeat Download](Images/repeatdownload.png)
 When you try to download a doujin you've already downloaded
 
@@ -62,18 +65,15 @@ nhentai open 123123
 ![Open Douijin](Images/open.png)
     ⚠️This will open the pdf in your default browser (Not incognito)⚠️
 
+To check all of your downloaded doujins:
+```bash
+nhentai doujins
+```
 ---
 
 ## Note
-⚠️I am aware that potentially for some doujins a few pages returns 404 unable to download. This is likely due to their site's cloudflare blocking the script, unfortunately there isn't much I can do however this has only happened to me for the newer doujins eg. 600001, 600002
+⚠️Sometimes it may return 403 error because of cloudflare, just try again and redownload.
 
-Side note: It seems that the doujins with code < 400000 have their img src as jpg files while the newer ones are in webp format.
-
-If you feel that the pages are downloading too slow, you can try and changing the max_workers inside download_doujin(), although I wouldn't recommmend setting it too high as you might run the risk of getting blocked by cloudflare.
-
-![download_doujin()](Images/code.png)
-
-Lastly
 Sorry if the features are kind of lacking (notably not being able to search by tags and bulk download)
 
 
