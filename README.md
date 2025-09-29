@@ -11,7 +11,7 @@ Also does not require you to input cookies as it will automatically create and f
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/TheDude2903/nhentai_scrapper.git
+git clone https://github.com/TheDude2701/nhentai_scrapper.git
 cd nhentai_scrapper
 ```
 2. **Install Dependencies**
@@ -24,7 +24,7 @@ playwright install
 ```
 4. **Install**
 ```bash
-py install -e .
+pip install -e .
 ```
 
 ## USAGE
