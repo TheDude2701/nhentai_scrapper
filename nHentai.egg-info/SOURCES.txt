@@ -1,0 +1,9 @@
+README.md
+main.py
+setup.py
+nHentai.egg-info/PKG-INFO
+nHentai.egg-info/SOURCES.txt
+nHentai.egg-info/dependency_links.txt
+nHentai.egg-info/entry_points.txt
+nHentai.egg-info/requires.txt
+nHentai.egg-info/top_level.txt
