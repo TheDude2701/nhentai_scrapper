@@ -1,35 +1,19 @@
 import os
 import re
 
-def construct_npath(paths,base_folder= "Saved_Doujins"):
+def construct_npath(paths, base_folder="Saved_Doujins",folder_max_len=75):
     script_dir = os.path.dirname(os.path.abspath(__file__))
-
     parent_dir = os.path.dirname(script_dir)
     target_folder = os.path.join(parent_dir, "Downloads", base_folder)
     os.makedirs(target_folder, exist_ok=True)
 
-    work_paths = paths.copy()
-    result = target_folder
+    folder_name = paths[0][:folder_max_len].replace("/", "_").replace("\\", "_").replace(":", "_").replace("|", "_")
+    folder_path = os.path.join(target_folder, folder_name)
+    os.makedirs(folder_path, exist_ok=True)
 
-    while work_paths:
-        result = os.path.join(result, length_check(work_paths.pop(0).replace("/", "_")))
-    return result
+    file_name = paths[-1].replace("/", "_").replace("\\", "_").replace(":", "_").replace("|", "_")
 
-def length_check(path_elem):
-    result = ""
-    BYTE_LENGTH_LIMIT = 255
-    CODEC = "utf-8"
-    byte_length = len(path_elem.encode(CODEC))
-    if byte_length > BYTE_LENGTH_LIMIT:
-        i = BYTE_LENGTH_LIMIT
-        while not result:
-            try:
-                result = path_elem.encode(CODEC)[:i].decode(CODEC)
-            except UnicodeDecodeError:
-                i = i - 1
-                continue
-    else:
-        result = path_elem
-    return result
+    return os.path.join(folder_path, file_name)
+
 def sanitize_filename(name):
     return re.sub(r'[<>:"/\\|?*]', "_", name)
