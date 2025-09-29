@@ -33,7 +33,7 @@ To download a specific doujin:
 ```bash
 nhentai download 123123 
 ```
-    This will download the img files into the \downloads\Saved_Doujins\ Folder
+This will download the img files into the \downloads\Saved_Doujins\ Folder
 
 To download and convert to a pdf:
 ```bash
