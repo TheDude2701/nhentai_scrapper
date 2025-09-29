@@ -10,6 +10,9 @@
 *.userosscache
 *.sln.docstates
 *.env
+__pycache__/
+*.pyc
+nHentai.egg-info/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
