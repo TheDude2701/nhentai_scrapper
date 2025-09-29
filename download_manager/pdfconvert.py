@@ -10,7 +10,7 @@ def images_to_pdf(folder_path):
     images = []
     image_files=[]
     for file in sorted(os.listdir(folder_path)):
-        if file.lower().endswith((".jpg", ".webp")):
+        if file.lower().endswith((".jpg", ".png",".jpeg",".webp")):
             img_path = os.path.join(folder_path, file)
             img = Image.open(img_path).convert("RGB")
             images.append(img)
