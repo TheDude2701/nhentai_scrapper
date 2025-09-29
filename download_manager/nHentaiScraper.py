@@ -5,11 +5,20 @@ import time
 import re
 import sys
 from bs4 import BeautifulSoup
+import concurrent.futures
+
 DEFAULT_USER_AGENT = (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
         "Chrome/121.0.0.0 Safari/537.36"
     )
+VALID_SERVERS = ["i1", "i2", "i4", "i9"]
+
+headers = {
+        "Referer": "https://nhentai.net",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0"
+        }
+
 
 def stealth_page_setup(page):
     """
@@ -80,26 +89,55 @@ def make_requests_session_from_cookies(cookies):
         s.cookies.set(c["name"], c["value"], domain=c.get("domain"))
     return s
 
+def probe_server(gallery_id, page, ext, server, headers=headers):
 
-def fetch_doujin_src(sauce):
+    url = f"https://{server}.nhentai.net/galleries/{gallery_id}/{page}.{ext}"
+    try:
+        r = requests.get(url, headers=headers) 
+        if r.status_code == 200:
+            return url
+    except Exception:
+        pass
+    return None
+
+def fetch_doujin_src(sauce, page_num):
     sauce_link = f"https://nhentai.net/g/{sauce}/1"
     html, cookies = fetch_page_and_cookies(sauce_link,"section#image-container img", headless=True)
     session = make_requests_session_from_cookies(cookies)
     soup = BeautifulSoup(html, "html.parser")
     section = soup.find("section", id="image-container")
     img_tag = section.find("img") if section else None
-    if img_tag:
-        img_src = img_tag.get("src")
+    if not img_tag:
+        print("Could not find image tag on first page")
+        return []
 
+    img_src = img_tag.get("src")
     if img_src.startswith("//"):
-        img_srcs = "https:" + img_src
-        parts = img_srcs.rsplit("/", 1)        
-        src_base = parts[0] + "/"             
-        file_type = "." + parts[1].split(".")[1]
-        img_file = []
-        img_file.append(src_base)
-        img_file.append(file_type)
-        return img_file
+        img_src = "https:" + img_src
+
+    # Example Link: https://i2.nhentai.net/galleries/3559405/1.webp
+    match = re.search(r"galleries/(\d+)/\d+\.(\w+)$", img_src)
+    if not match:
+        print("Could not extract gallery_id and extension")
+        return []
+
+    gallery_id, ext = match.groups()
+    #try for valid hosting links
+    def resolve_page(page):
+        with concurrent.futures.ThreadPoolExecutor(max_workers=len(VALID_SERVERS)) as executor:
+            futures = [executor.submit(probe_server, gallery_id, page, ext, server) for server in VALID_SERVERS]
+            for future in concurrent.futures.as_completed(futures):
+                result = future.result()
+                if result:
+                    return result
+        return None
+    img_srcs = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        results = executor.map(resolve_page, range(1, page_num + 1))
+        img_srcs = list(results)
+        img_srcs = [url for url in img_srcs if url is not None]
+    return img_srcs
+
         
 def fetch_page_num(sauce):
     sauce_link = f"https://nhentai.net/g/{sauce}/1"
