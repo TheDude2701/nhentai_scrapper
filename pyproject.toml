@@ -23,4 +23,4 @@ dependencies = [
 ]
 
 [project.scripts]
-nhentai = "nhentai_scrapper.__main__:main"
+nhentai = "nhentai_scrapper.main:main"

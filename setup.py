@@ -4,6 +4,7 @@ setup(
     name="nhentai",
     version="1.0",
     py_modules=["main"],
+    packages=find_packages(), 
     entry_points={
         "console_scripts": [
             "nhentai = nhentai_scrapper.main:main",
