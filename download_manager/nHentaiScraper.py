@@ -124,18 +124,19 @@ def fetch_doujin_src(sauce, page_num):
     gallery_id, ext = match.groups()
     #try for valid hosting links
     def resolve_page(page):
-        with concurrent.futures.ThreadPoolExecutor(max_workers=len(VALID_SERVERS)) as executor:
-            futures = [executor.submit(probe_server, gallery_id, page, ext, server) for server in VALID_SERVERS]
-            for future in concurrent.futures.as_completed(futures):
-                result = future.result()
-                if result:
-                    return result
+        for ext_candidate in ["webp", "jpg", "png", "jpeg"]:
+            for server in VALID_SERVERS:
+                url = f"https://{server}/galleries/{gallery_id}/{page}.{ext_candidate}"
+                url = probe_server(gallery_id, page, ext_candidate, server)
+                if url:
+                    return url
+        print(f"Page {page} not found on any server")
         return None
     img_srcs = []
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=len(VALID_SERVERS)*4) as executor:
         results = executor.map(resolve_page, range(1, page_num + 1))
-        img_srcs = list(results)
-        img_srcs = [url for url in img_srcs if url is not None]
+        img_srcs = [url for url in results if url is not None]
+
     return img_srcs
 
         
