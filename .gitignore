@@ -15,6 +15,7 @@ __pycache__/
 nHentai.egg-info/
 Downloads/
 *.egg-info/
+dist/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
