@@ -2,10 +2,9 @@ import os,re
 import requests
 from .download_path import construct_npath
 import shutil
-from .nHentaiScraper import *
-import concurrent.futures
-from .pdfconvert import images_to_pdf
-from .download_path import sanitize_filename
+from nhentai_scrapper.download_manager.nHentaiScraper import *
+from nhentai_scrapper.download_manager.pdfconvert import images_to_pdf
+from nhentai_scrapper.download_manager.download_path import sanitize_filename
 
 def download_page(arg):
     base_url, i, path_file, headers = arg
