@@ -23,7 +23,16 @@ def main():
     open_parser.add_argument("sauce", help="NHentai Sauce Code")
 
     lookup_parser = subparsers.add_parser("lookup", help="return sauce code based on title")
-    lookup_parser.add_argument("title", help="Title of the doujin")
+    lookup_parser.add_argument(
+        "--title",
+        type=str, 
+        help="Search the title of the doujin by the title, Returns code"
+    )
+    lookup_parser.add_argument(
+        "--code",
+        type=str, 
+        help="Search the title of the doujin by the code, Returns title"
+    )
 
     downloaded_parser = subparsers.add_parser("doujins", help = "List of downloaded doujins")
   
@@ -56,7 +65,14 @@ def main():
             open_pdf(target_folder)
     
     if args.command == "lookup":
-        get_code(args.title)
+        if args.code:
+            name = get_name(args.code)
+            print(name)   
+        elif args.title:
+            code = get_code(args.title)
+            print(code) 
+        else:
+            print("Please provide either --code or --title")
     
     if args.command  == "doujins":
         script_dir = os.path.dirname(os.path.abspath(__file__))
