@@ -35,8 +35,6 @@ def main():
     )
 
     downloaded_parser = subparsers.add_parser("doujins", help = "List of downloaded doujins")
-  
-
 
     args = parser.parse_args()
     if args.command == "download":
@@ -57,7 +55,7 @@ def main():
         print(f"Opening Doujin: {args.sauce}")
         script_dir = os.path.dirname(os.path.abspath(__file__))
         doujin_name = get_name(args.sauce)
-        doujin_name = sanitize_filename(doujin_name)[:75]
+        doujin_name = args.sauce + "-" + sanitize_filename(doujin_name)[:75]
         target_folder = os.path.join(script_dir, "Downloads", "Saved_Doujins", doujin_name)
         if not os.path.exists(target_folder):
             print("You don't have that doujin downloaded!")
