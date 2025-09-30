@@ -3,7 +3,8 @@ import re
 
 def construct_npath(paths, sauce, base_folder="Saved_Doujins",folder_max_len=75):
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    parent_dir = os.path.dirname(script_dir)
+    child_dir = os.path.dirname(script_dir)
+    parent_dir = os.path.dirname(child_dir)
     target_folder = os.path.join(parent_dir, "Downloads", base_folder)
     os.makedirs(target_folder, exist_ok=True)
 

@@ -28,7 +28,8 @@ class downloadManager():
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0"
         }
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        parent_dir = os.path.dirname(script_dir)
+        child_dir = os.path.dirname(script_dir)
+        parent_dir = os.path.dirname(child_dir)
         name = get_name(sauce)
         name_safe = sanitize_filename(name)[:75]
         name_safe = sauce + "-" + name_safe
@@ -58,7 +59,8 @@ class downloadManager():
         doujin_name =sanitize_filename(doujin_name)[:75]
         doujin_name = doujin + "-" + doujin_name
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        parent_dir = os.path.dirname(script_dir)
+        child_dir = os.path.dirname(script_dir)
+        parent_dir = os.path.dirname(child_dir)
         doujin_folder = os.path.join(parent_dir, "Downloads", "Saved_Doujins",doujin_name)
         if os.path.exists(doujin_folder):
             shutil.rmtree(doujin_folder)
