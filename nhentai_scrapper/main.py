@@ -1,8 +1,12 @@
 import argparse
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from download_manager.downloader import *
-from download_manager.pdfconvert import  open_pdf
+from download_manager.pdfconvert import open_pdf
 from download_manager.nHentaiScraper import get_name, get_code
 from download_manager.download_path import sanitize_filename
+
 
 def main():
     parser = argparse.ArgumentParser(prog="nhentai", description="Doujin download tool")
