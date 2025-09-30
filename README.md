@@ -55,9 +55,10 @@ nhentai delete 123123
 
 To lookup the corresponding code for the title of a doujin:
 ```bash
-nhentai lookup "title"
+nhentai lookup --title "title" or --code "sauce"
 ```
-![lookup Douijin](Images/lookup.png)
+![lookup Douijin](Images/lookup-code.png)
+
 To open a downloaded pdf of a doujin:
 ```bash
 nhentai open 123123
