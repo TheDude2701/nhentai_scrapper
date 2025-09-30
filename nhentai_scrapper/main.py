@@ -56,10 +56,11 @@ def main():
     
     if args.command == "open":
         print(f"Opening Doujin: {args.sauce}")
-        script_dir = os.path.dirname(os.path.abspath(__file__))
+        parent_dir = os.path.dirname(os.path.abspath(__file__))
+        script1_dir = os.path.dirname(parent_dir)
         doujin_name = get_name(args.sauce)
         doujin_name = args.sauce + "-" + sanitize_filename(doujin_name)[:75]
-        target_folder = os.path.join(script_dir, "Downloads", "Saved_Doujins", doujin_name)
+        target_folder = os.path.join(script1_dir, "Downloads", "Saved_Doujins", doujin_name)
         if not os.path.exists(target_folder):
             print("You don't have that doujin downloaded!")
         else:
@@ -76,12 +77,13 @@ def main():
             print("Please provide either --code or --title")
     
     if args.command  == "doujins":
-        script_dir = os.path.dirname(os.path.abspath(__file__))
-        target_folder = os.path.join(script_dir, "Downloads", "Saved_Doujins")
-        if os.path.exists(target_folder):
+        child_dir = os.path.dirname(os.path.abspath(__file__))
+        script_dir = os.path.dirname(child_dir)
+        doujin_folder = os.path.join(script_dir, "Downloads", "Saved_Doujins")
+        if os.path.exists(doujin_folder):
             saved_doujins = [
-                name for name in os.listdir(target_folder)
-                if os.path.isdir(os.path.join(target_folder, name))
+                name for name in os.listdir(doujin_folder)
+                if os.path.isdir(os.path.join(doujin_folder, name))
             ]
             if saved_doujins:
                 print("Saved Doujins:")
