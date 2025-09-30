@@ -13,6 +13,7 @@ Also does not require you to input cookies as it will automatically create and f
 ```bash
 pip install git+https://github.com/TheDude2701/nhentai_scrapper.git
 ```
+---
 1. **Clone the git Repo**
 ```bash
 git clone https://github.com/TheDude2701/nhentai_scrapper.git
