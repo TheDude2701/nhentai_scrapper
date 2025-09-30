@@ -9,7 +9,11 @@ Also does not require you to input cookies as it will automatically create and f
 
 ## Installation
 
-1. **Clone the repository**
+1. **Download directly with pip**
+```bash
+pip install git+https://github.com/TheDude2701/nhentai_scrapper.git
+```
+1. **Clone the git Repo**
 ```bash
 git clone https://github.com/TheDude2701/nhentai_scrapper.git
 cd nhentai_scrapper
@@ -24,7 +28,7 @@ playwright install
 ```
 4. **Install**
 ```bash
-pip install -e .
+pip install .
 ```
 
 ## USAGE
