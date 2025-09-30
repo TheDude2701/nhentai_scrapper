@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nhentai-scrapper"
+version = "1.0.0"
+description = "A CLI tool for downloading and managing nhentai doujins"
+authors = [
+    { name = "TheDude2701", email = "t63380412@gmail.com" }
+]
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+
+dependencies = [
+    "beautifulsoup4==4.13.3",
+    "Pillow==9.3.0",
+    "playwright==1.55.0",
+    "requests==2.32.3",
+    "lxml",
+    "concurrent-futures; python_version<'3.2'"
+]
+
+[project.scripts]
+nhentai = "nhentai_scrapper.__main__:main"
