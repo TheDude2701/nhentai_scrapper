@@ -46,6 +46,8 @@ nhentai download 123123 --pdf
 ```
 ![Download](Images/download.png)
 
+(If you do it without the --pdf flag, it will only download the raw images. To convert it to pdf you can just run the download command with the --pdf flag again)
+
 Note: It will take longer for larger doujins with more pages, for 200 pages it'll take ~ 1.5min
 Sorry, I know it's kinda slow...
 
