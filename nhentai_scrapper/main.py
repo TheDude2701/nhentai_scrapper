@@ -58,13 +58,27 @@ def main():
         print(f"Opening Doujin: {args.sauce}")
         parent_dir = os.path.dirname(os.path.abspath(__file__))
         script1_dir = os.path.dirname(parent_dir)
-        doujin_name = get_name(args.sauce)
-        doujin_name = args.sauce + "-" + sanitize_filename(doujin_name)[:75]
-        target_folder = os.path.join(script1_dir, "Downloads", "Saved_Doujins", doujin_name)
-        if not os.path.exists(target_folder):
-            print("You don't have that doujin downloaded!")
+        doujin_folders = os.path.join(script1_dir, "Downloads", "Saved_Doujins")
+        if os.path.exists(doujin_folders):
+            found = False
+            for name in os.listdir(doujin_folders):
+                match = re.match(r"^(\d{1,6})-", name)
+                if match and match.group(1) == args.sauce:
+                    doujin_path = os.path.join(doujin_folders, name)
+                    if os.path.isdir(doujin_path):
+                        for file in os.listdir(doujin_path):
+                            if file.endswith(".pdf"):
+                                pdf_path = os.path.join(doujin_path, file)
+                                print(f"Opening {pdf_path}")
+                                os.startfile(pdf_path)  # Windows only
+                                found = True
+                                break
+                    if found:
+                        break
+            if not found:
+                print("No Doujin found matching that code")
         else:
-            open_pdf(target_folder)
+            print("You don't have that doujin downloaded!")
     
     if args.command == "lookup":
         if args.code:
